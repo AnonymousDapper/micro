@@ -1,0 +1,27 @@
+# The MIT License (MIT)
+
+# Copyright (c) 2022 AnonymousDapper
+
+MACRO_CALL = "!"
+MACRO_CALL_LEN = len(MACRO_CALL)
+
+MACRO_SAFE_CALL = "__macro_call__"
+MACRO_SAFE_CALL_LEN = len(MACRO_SAFE_CALL)
+
+MACRO_SUBST = "$"
+MACRO_SUBST_LEN = len(MACRO_SUBST)
+
+MACRO_SAFE_SUBST = "__msub__"
+MACRO_SAFE_SUBST_LEN = len(MACRO_SAFE_SUBST)
+
+MACRO_QUOTE = "quote" + MACRO_CALL
+MACRO_QUOTE_LEN = len(MACRO_QUOTE)
+
+# MACRO_QUOTE = "?"
+# MACRO_QUOTE_LEN = len(MACRO_QUOTE)
+
+# MACRO_SAFE_QUOTE = "__macro_quote__"
+# MACRO_SAFE_QUOTE_LEN = len(MACRO_SAFE_QUOTE)
+
+
+AST_OPTS = dict(feature_version=(3, 10))

@@ -1,0 +1,10 @@
+[tool.black]
+line-length = 120
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.pyright]
+pythonVersion = "3.10.8"
