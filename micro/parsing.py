@@ -98,7 +98,13 @@ class MacroRewriter(ast.NodeTransformer):
 
         return node
 
-    # not handling Attributes atm
+    def visit_Attribute(self, node: ast.Attribute):
+        self.generic_visit(node)
+
+        if node.attr.startswith(consts.MACRO_SAFE_SUBST):
+            node.attr = consts.MACRO_SUBST + node.attr[consts.MACRO_SAFE_SUBST_LEN :]
+
+        return node
 
     def visit_keyword(self, node: ast.keyword):
         if node.arg.startswith(consts.MACRO_SAFE_SUBST):

@@ -8,6 +8,7 @@ import ast
 
 from micro import consts, logger
 from micro.symbol import SymbolTree
+from micro.walker import EXPR_NODES
 
 log = logger.get_logger(__name__)
 
@@ -55,3 +56,19 @@ class CleanupTransformer(ast.NodeTransformer):
                 return ast.Constant(value=ast.unparse(node)[consts.MACRO_QUOTE_LEN + 1 : -1])
 
         return node
+
+    def visit_Module(self, node: ast.Module):
+        self.generic_visit(node)
+
+        for idx, stmt in enumerate(node.body):
+            if type(stmt) in EXPR_NODES:
+                node.body[idx] = ast.Expr(value=stmt)
+
+        return node
+
+    # def visit_Expr(self, node: ast.Expr):
+    #     self.generic_visit(node)
+    #     if type(node.value) in EXPR_NODES:
+    #         return node.value
+
+    #     return node

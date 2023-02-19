@@ -2,7 +2,7 @@
 
 # Copyright (c) 2022 AnonymousDapper
 
-__all__ = ("MacroInterpreter", "subscript_invoke", "call_invoke")
+__all__ = ("MacroInterpreter", "subscript_invoke", "call_invoke", "EXPR_NODES")
 
 import ast
 from collections import deque
@@ -190,6 +190,15 @@ class MacroInterpreter(ast.NodeTransformer):
         # print(self.vars, name)
         return self.vars.get(name[consts.MACRO_SUBST_LEN :], None)
 
+    def visit_Attribute(self, node: ast.Attribute):
+        self.generic_visit(node)
+
+        if node.attr.startswith(consts.MACRO_SUBST):
+            if v := self._get_arg(node.attr):
+                node.attr = ast.unparse(v)
+
+        return node
+
     def visit_Name(self, node: ast.Name):
         if node.id.startswith(consts.MACRO_SUBST):
             ctx = node.ctx
@@ -241,9 +250,9 @@ class MacroInterpreter(ast.NodeTransformer):
                         return body
 
 
-        for idx, stmt in enumerate(node.body):
-            if type(stmt) in EXPR_NODES:
-                node.body[idx] = ast.Expr(value=stmt)
+        # for idx, stmt in enumerate(node.body):
+        #     if type(stmt) in EXPR_NODES:
+        #         node.body[idx] = ast.Expr(value=stmt)
 
         return node
 
@@ -276,7 +285,7 @@ def subscript_invoke(node: ast.Subscript, macro: ast.FunctionDef):
 
 def call_invoke(node: ast.Call, macro: ast.FunctionDef):
     args = node.args
-    kwargs = {ast.Name(id=k.arg): k.value for k in node.keywords}
+    kwargs = {ast.Name(id=k.arg, ctx=ast.Load()): k.value for k in node.keywords}
 
     interpreter = MacroInterpreter(macro.args, args, kwargs)
     tree = interpreter.visit(macro)

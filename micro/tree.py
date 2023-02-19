@@ -63,6 +63,10 @@ class MacroTransformer(ast.NodeTransformer):
                 if macro := SymbolTree.lookup_macro(self.path, name):
 
                     node = walker.call_invoke(node, macro)
+                    
+                    for i, n in enumerate(node):
+                        if type(n) == ast.Expr:
+                            node[i] = n.value
 
                 else:
                     log.error(f"Error on call invoke `{name}`: macro not found")

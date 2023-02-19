@@ -37,7 +37,7 @@ class MacroImporter:
         file_path = Path(module.__file__)
         source_tree = parsing.parse_rename_safe(file_path)
 
-        # log.info(f"[[ Original AST {file_path.name}\n{astpretty.pformat(source_tree, show_offsets=False)}\n]]")
+        #log.info(f"[[ Original AST {file_path.name}\n{astpretty.pformat(source_tree, show_offsets=False)}\n]]")
 
         #log.debug(f"<< Prepared source: {file_path.name}\n{ast.unparse(source_tree)}\n>>")
 

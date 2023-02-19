@@ -3,26 +3,27 @@
 from micro import macro
 
 
-@macro!
-def biject(name, reverse_name, **kwargs):
-    $name = {}
-    for $k, $v in $kwargs:
-        $name[quote!($k)] = $v
+# @macro!
+# def lprint(*text):
+#     with $text as $c:
+#         print($c)
+
+# @macro!
+# def foo(**k):
+#     for $a, $b in $k:
+#         print(quote!($a.$b), "=>", $b)
+
+# foo!(a=1, b=2, c=3, d=4)
+
+# @macro!
+# def fullwidth(text):
+#     " ".join(list($text))
+
+# print(fullwidth!("hello, world"))
+
+# print(" ".join(list("dlrow ,olleh")))
+
+# lprint!("g", "o", "t", "y", "a")
 
 
-    $reverse_name = {}
-    for $k, $v in $kwargs:
-        $reverse_name[$v] = quote!($k)
-
-
-@macro!
-def print_biject(name, reverse_name):
-    for k, v in $name.items():
-        print(k, v)
-
-    for k, v in $reverse_name.items():
-        print(k, v)
-
-biject!(color_to_code, code_to_color, black=0, red=1, green=2, yellow=3, blue=4, magenta=5, cyan=6, white=7)
-
-print_biject!(color_to_code, code_to_color)
+print(quote!(5 + 3 / 2), " = ", 5 + 3 / 2)
